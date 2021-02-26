@@ -5,6 +5,7 @@
  */
 namespace OpenIDConnectServer;
 
+use DateTimeImmutable;
 use OpenIDConnectServer\Repositories\IdentityProviderInterface;
 use OpenIDConnectServer\Entities\ClaimSetInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;
@@ -41,8 +42,8 @@ class IdTokenResponse extends BearerTokenResponse
         $builder = (new Builder())
             ->permittedFor($accessToken->getClient()->getIdentifier())
             ->issuedBy('https://' . $_SERVER['HTTP_HOST'])
-            ->issuedAt(time())
-            ->expiresAt($accessToken->getExpiryDateTime()->getTimestamp())
+            ->issuedAt(new DateTimeImmutable())
+            ->expiresAt($accessToken->getExpiryDateTime())
             ->relatedTo($userEntity->getIdentifier());
 
         return $builder;
